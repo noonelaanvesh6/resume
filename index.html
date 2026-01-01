@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>noonela@system:~$</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* --- RESET & TERMINAL THEME --- */
+      body {
+        background-color: #0d1117; /* GitHub Dark Dimmed */
+        color: #c9d1d9;
+        font-family: "Fira Code", monospace;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+
+      /* --- THE WINDOW FRAME --- */
+      .terminal-window {
+        width: 100%;
+        max-width: 900px;
+        background-color: #010409;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .title-bar {
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 1px solid #30363d;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* Mac-style Window Buttons */
+      .btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .close {
+        background-color: #ff5f56;
+      }
+      .min {
+        background-color: #ffbd2e;
+      }
+      .max {
+        background-color: #27c93f;
+      }
+
+      .window-title {
+        margin-left: 15px;
+        color: #8b949e;
+        font-size: 0.8rem;
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      /* --- TERMINAL CONTENT --- */
+      .terminal-body {
+        padding: 24px;
+        overflow-y: auto;
+        font-size: 0.95rem;
+      }
+
+      /* Syntax Highlighting Colors */
+      .prompt {
+        color: #79c0ff;
+        font-weight: bold;
+      } /* User Blue */
+      .path {
+        color: #a5d6ff;
+      } /* Path Light Blue */
+      .cmd {
+        color: #eaffff;
+        font-weight: bold;
+      } /* Command White */
+      .string {
+        color: #a5d6ff;
+      } /* String Blue */
+      .keyword {
+        color: #ff7b72;
+      } /* Keyword Red */
+      .comment {
+        color: #8b949e;
+        font-style: italic;
+      } /* Comment Grey */
+      .success {
+        color: #7ee787;
+      } /* Success Green */
+      .warn {
+        color: #d2a8ff;
+      } /* Purple for Emphasis */
+
+      /* Layout Utilities */
+      .command-block {
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fadeIn 0.5s forwards;
+      }
+      .output {
+        margin-left: 20px;
+        margin-top: 5px;
+        border-left: 2px solid #30363d;
+        padding-left: 15px;
+      }
+
+      /* Links */
+      a {
+        color: #79c0ff;
+        text-decoration: none;
+        border-bottom: 1px dashed #79c0ff;
+        transition: 0.2s;
+      }
+      a:hover {
+        background: rgba(121, 192, 255, 0.2);
+      }
+
+      /* --- ANIMATIONS --- */
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Delays for "typing" effect simulation */
+      .delay-1 {
+        animation-delay: 0.2s;
+      }
+      .delay-2 {
+        animation-delay: 0.8s;
+      }
+      .delay-3 {
+        animation-delay: 1.5s;
+      }
+      .delay-4 {
+        animation-delay: 2.2s;
+      }
+      .delay-5 {
+        animation-delay: 3s;
+      }
+      .delay-6 {
+        animation-delay: 3.8s;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 18px;
+        background-color: #c9d1d9;
+        animation: blink 1s infinite;
+        vertical-align: middle;
+        margin-left: 5px;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Mobile Adjustments */
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+        .terminal-body {
+          padding: 15px;
+          font-size: 0.85rem;
+        }
+        .output {
+          margin-left: 5px;
+          padding-left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="terminal-window">
+      <div class="title-bar">
+        <div class="btn close"></div>
+        <div class="btn min"></div>
+        <div class="btn max"></div>
+        <div class="window-title">zsh — noonela_portfolio</div>
+      </div>
+
+      <div class="terminal-body">
+        <div class="command-block delay-1">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~</span>$ <span class="cmd">whoami</span>
+          </div>
+          <div class="output">
+            <h1 style="margin: 0; color: #f0f6fc">NOONELA ANVESH</h1>
+            <p class="warn">
+              Product Manager | Ops Specialist | Digital Strategist
+            </p>
+          </div>
+        </div>
+
+        <div class="command-block delay-2">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~</span>$
+            <span class="cmd">cat profile.txt</span>
+          </div>
+          <div class="output">
+            "Aspiring Product Manager bridging the gap between operations and
+            marketing. I optimize processes, improve user experiences, and
+            leverage SEO data for scalable business results."
+          </div>
+        </div>
+
+        <div class="command-block delay-3">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~</span>$
+            <span class="cmd">node list_skills.js</span>
+          </div>
+          <div class="output">
+            <span class="keyword">const</span>
+            <span class="warn">techStack</span> = [<br />
+            [cite_start]&nbsp;&nbsp;<span class="string">"Figma (UI/UX)"</span>,
+            <span class="comment">// [cite: 32]</span><br />
+            [cite_start]&nbsp;&nbsp;<span class="string"
+              >"WordPress & RankMath"</span
+            >, <span class="comment">// [cite: 32]</span><br />
+            [cite_start]&nbsp;&nbsp;<span class="string">"Data Analytics"</span
+            >, <span class="comment">// [cite: 29]</span><br />
+            [cite_start]&nbsp;&nbsp;<span class="string"
+              >"SEO Optimization"</span
+            >, <span class="comment">// [cite: 28]</span><br />
+            [cite_start]&nbsp;&nbsp;<span class="string"
+              >"Supply Chain Ops"</span
+            >
+            <span class="comment">// [cite: 15]</span><br />
+            ];
+          </div>
+        </div>
+
+        <div class="command-block delay-4">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~/work</span>$
+            <span class="cmd">tail -n 5 experience.log</span>
+          </div>
+          <div class="output">
+            <span class="comment"
+              ># Role: Intern - Supply Chain @ Secured Technologies</span
+            ><br />
+            <span class="success">[SUCCESS]</span> Streamlined workflows;
+            increased process efficiency.<br />
+            <span class="success">[SUCCESS]</span> Collaborated with
+            cross-functional teams to resolve bottlenecks.<br />
+            <br />
+            <span class="comment"># Role: Key Projects</span><br />
+            <span class="success">[DEPLOYED]</span> Digital Marketing
+            Optimization: Redesigned site architecture for engagement.<br />
+            <span class="success">[DEPLOYED]</span> Portfolio Dev: Integrated
+            SEO tools for SERP performance.
+          </div>
+        </div>
+
+        <div class="command-block delay-5">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~/edu</span>$
+            <span class="cmd">curl localhost:8080/education</span>
+          </div>
+          <div class="output">
+            [<br />
+            &nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"degree"</span>:
+            <span class="string">"PGDM - Ops & Marketing"</span>,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"institute"</span>:
+            <span class="string">"IIAM"</span>,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"year"</span>:
+            <span class="string">"2023 - 2025"</span><br />
+            &nbsp;&nbsp;},<br />
+            &nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"degree"</span>:
+            <span class="string">"Bachelor of Hotel Management"</span>,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"institute"</span>:
+            <span class="string">"Sun International"</span><br />
+            &nbsp;&nbsp;}<br />
+            ]
+          </div>
+        </div>
+
+        <div class="command-block delay-6">
+          <div>
+            <span class="prompt">noonela@admin:</span
+            ><span class="path">~</span>$
+            <span class="cmd">./contact_me.sh</span>
+          </div>
+          <div class="output">
+            <i class="fa-solid fa-envelope"></i>
+            <a href="mailto:noonelaanvesh6@gmail.com"
+              >noonelaanvesh6@gmail.com</a
+            ><br />
+            <i class="fa-solid fa-phone"></i> 9390745690<br />
+            <i class="fa-brands fa-linkedin"></i>
+            <a href="https://www.linkedin.com/in/noonela-anvesh-yadav"
+              >noonela-anvesh-yadav</a
+            >
+          </div>
+        </div>
+
+        <div style="margin-top: 20px">
+          <span class="prompt">noonela@admin:</span><span class="path">~</span>$
+          <span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
