@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
     <title>noonela@system:~$</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap"
@@ -14,7 +17,11 @@
     />
 
     <style>
-      /* --- RESET & TERMINAL THEME --- */
+      /* --- GLOBAL RESET & THEME --- */
+      * {
+        box-sizing: border-box; /* Crucial for responsive padding */
+      }
+
       body {
         background-color: #0d1117; /* GitHub Dark Dimmed */
         color: #c9d1d9;
@@ -23,6 +30,7 @@
         padding: 20px;
         display: flex;
         justify-content: center;
+        align-items: center; /* Centers vertically on large screens */
         min-height: 100vh;
         line-height: 1.5;
       }
@@ -38,6 +46,8 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        /* Ensure it doesn't exceed screen height on mobile if we want internal scrolling */
+        max-height: 95vh;
       }
 
       .title-bar {
@@ -47,6 +57,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        flex-shrink: 0; /* Prevents title bar from shrinking */
       }
 
       /* Mac-style Window Buttons */
@@ -54,6 +65,7 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
+        flex-shrink: 0;
       }
       .close {
         background-color: #ff5f56;
@@ -71,55 +83,78 @@
         font-size: 0.8rem;
         flex-grow: 1;
         text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* Handles title overflow on tiny screens */
       }
 
       /* --- TERMINAL CONTENT --- */
       .terminal-body {
         padding: 24px;
-        overflow-y: auto;
+        overflow-y: auto; /* Internal scrolling */
         font-size: 0.95rem;
+        height: 100%;
       }
 
       /* Syntax Highlighting Colors */
       .prompt {
         color: #79c0ff;
         font-weight: bold;
-      } /* User Blue */
+      }
       .path {
         color: #a5d6ff;
-      } /* Path Light Blue */
+      }
       .cmd {
         color: #eaffff;
         font-weight: bold;
-      } /* Command White */
+      }
       .string {
         color: #a5d6ff;
-      } /* String Blue */
+      }
       .keyword {
         color: #ff7b72;
-      } /* Keyword Red */
+      }
       .comment {
         color: #8b949e;
         font-style: italic;
-      } /* Comment Grey */
+      }
       .success {
         color: #7ee787;
-      } /* Success Green */
+      }
       .warn {
         color: #d2a8ff;
-      } /* Purple for Emphasis */
+      }
 
-      /* Layout Utilities */
+      /* Layout Utilities & Text Wrapping */
       .command-block {
         margin-bottom: 24px;
         opacity: 0;
         animation: fadeIn 0.5s forwards;
       }
+
+      /* THIS IS THE KEY RESPONSIVE FIX FOR CODE */
+      .output,
+      .cmd,
+      .prompt,
+      .path {
+        overflow-wrap: break-word; /* Modern wrapping */
+        word-wrap: break-word; /* Legacy support */
+        word-break: break-word; /* Force break long URLs/Emails */
+        white-space: pre-wrap; /* Preserves formatting but wraps lines */
+      }
+
       .output {
         margin-left: 20px;
         margin-top: 5px;
         border-left: 2px solid #30363d;
         padding-left: 15px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin: 0;
+        color: #f0f6fc;
+        line-height: 1.2;
       }
 
       /* Links */
@@ -128,6 +163,7 @@
         text-decoration: none;
         border-bottom: 1px dashed #79c0ff;
         transition: 0.2s;
+        word-break: break-all; /* Ensures links don't push screen width out */
       }
       a:hover {
         background: rgba(121, 192, 255, 0.2);
@@ -140,7 +176,7 @@
         }
       }
 
-      /* Delays for "typing" effect simulation */
+      /* Delays */
       .delay-1 {
         animation-delay: 0.2s;
       }
@@ -169,25 +205,37 @@
         vertical-align: middle;
         margin-left: 5px;
       }
-
       @keyframes blink {
         50% {
           opacity: 0;
         }
       }
 
-      /* Mobile Adjustments */
-      @media (max-width: 600px) {
+      /* --- MOBILE ADJUSTMENTS (Phone Portrait & Landscape) --- */
+      @media (max-width: 768px) {
         body {
           padding: 10px;
+          align-items: flex-start; /* Prevents centering issues on long scroll */
         }
+
+        .terminal-window {
+          height: 90vh; /* Takes up most of the screen */
+          max-height: none;
+        }
+
         .terminal-body {
           padding: 15px;
-          font-size: 0.85rem;
+          font-size: 0.85rem; /* Slightly smaller text for mobile */
         }
+
+        h1 {
+          font-size: 1.4rem;
+        }
+
         .output {
-          margin-left: 5px;
+          margin-left: 5px; /* Less indentation on mobile */
           padding-left: 10px;
+          border-left-width: 2px;
         }
       }
     </style>
@@ -208,8 +256,8 @@
             ><span class="path">~</span>$ <span class="cmd">whoami</span>
           </div>
           <div class="output">
-            <h1 style="margin: 0; color: #f0f6fc">NOONELA ANVESH</h1>
-            <p class="warn">
+            <h1>NOONELA ANVESH</h1>
+            <p class="warn" style="margin: 5px 0 0 0">
               Product Manager | Ops Specialist | Digital Strategist
             </p>
           </div>
@@ -236,22 +284,23 @@
           </div>
           <div class="output">
             <span class="keyword">const</span>
-            <span class="warn">techStack</span> = [<br />
-            [cite_start]&nbsp;&nbsp;<span class="string">"Figma (UI/UX)"</span>,
-            <span class="comment">// [cite: 32]</span><br />
-            [cite_start]&nbsp;&nbsp;<span class="string"
+            <span class="warn">techStack</span> = [ [cite_start]<span
+              class="string"
+              >"Figma (UI/UX)"</span
+            >, <span class="comment">// [cite: 32]</span> [cite_start]<span
+              class="string"
               >"WordPress & RankMath"</span
-            >, <span class="comment">// [cite: 32]</span><br />
-            [cite_start]&nbsp;&nbsp;<span class="string">"Data Analytics"</span
-            >, <span class="comment">// [cite: 29]</span><br />
-            [cite_start]&nbsp;&nbsp;<span class="string"
+            >, <span class="comment">// [cite: 32]</span> [cite_start]<span
+              class="string"
+              >"Data Analytics"</span
+            >, <span class="comment">// [cite: 29]</span> [cite_start]<span
+              class="string"
               >"SEO Optimization"</span
-            >, <span class="comment">// [cite: 28]</span><br />
-            [cite_start]&nbsp;&nbsp;<span class="string"
+            >, <span class="comment">// [cite: 28]</span> [cite_start]<span
+              class="string"
               >"Supply Chain Ops"</span
             >
-            <span class="comment">// [cite: 15]</span><br />
-            ];
+            <span class="comment">// [cite: 15]</span> ];
           </div>
         </div>
 
@@ -264,15 +313,15 @@
           <div class="output">
             <span class="comment"
               ># Role: Intern - Supply Chain @ Secured Technologies</span
-            ><br />
+            >
             <span class="success">[SUCCESS]</span> Streamlined workflows;
-            increased process efficiency.<br />
+            increased process efficiency.
             <span class="success">[SUCCESS]</span> Collaborated with
-            cross-functional teams to resolve bottlenecks.<br />
-            <br />
-            <span class="comment"># Role: Key Projects</span><br />
+            cross-functional teams to resolve bottlenecks.
+
+            <span class="comment"># Role: Key Projects</span>
             <span class="success">[DEPLOYED]</span> Digital Marketing
-            Optimization: Redesigned site architecture for engagement.<br />
+            Optimization: Redesigned site architecture.
             <span class="success">[DEPLOYED]</span> Portfolio Dev: Integrated
             SEO tools for SERP performance.
           </div>
@@ -285,22 +334,17 @@
             <span class="cmd">curl localhost:8080/education</span>
           </div>
           <div class="output">
-            [<br />
-            &nbsp;&nbsp;{<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"degree"</span>:
-            <span class="string">"PGDM - Ops & Marketing"</span>,<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"institute"</span>:
-            <span class="string">"IIAM"</span>,<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"year"</span>:
-            <span class="string">"2023 - 2025"</span><br />
-            &nbsp;&nbsp;},<br />
-            &nbsp;&nbsp;{<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"degree"</span>:
-            <span class="string">"Bachelor of Hotel Management"</span>,<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">"institute"</span>:
-            <span class="string">"Sun International"</span><br />
-            &nbsp;&nbsp;}<br />
-            ]
+            [ { <span class="keyword">"degree"</span>:
+            <span class="string">"PGDM - Ops & Marketing"</span>,
+            <span class="keyword">"institute"</span>:
+            <span class="string">"IIAM"</span>,
+            <span class="keyword">"year"</span>:
+            <span class="string">"2023 - 2025"</span>
+            }, {
+            <span class="keyword">"degree"</span>:
+            <span class="string">"Bachelor of Hotel Management"</span>,
+            <span class="keyword">"institute"</span>:
+            <span class="string">"Sun International"</span> } ]
           </div>
         </div>
 
@@ -314,8 +358,8 @@
             <i class="fa-solid fa-envelope"></i>
             <a href="mailto:noonelaanvesh6@gmail.com"
               >noonelaanvesh6@gmail.com</a
-            ><br />
-            <i class="fa-solid fa-phone"></i> 9390745690<br />
+            >
+            <i class="fa-solid fa-phone"></i> 9390745690
             <i class="fa-brands fa-linkedin"></i>
             <a href="https://www.linkedin.com/in/noonela-anvesh-yadav"
               >noonela-anvesh-yadav</a
